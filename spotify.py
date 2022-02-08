@@ -21,3 +21,16 @@ auth_response = requests.post(AUTH_URL, {
 access_token = auth_response['access_token']
 
 HEADERS = {'Authorization': f'Bearer {access_token}'}
+
+
+artist_ids = []
+for i in queries:
+    artists = requests.get(f"{BASE_URL}/search",
+                           {"q": f"{i}", "type": "artist"}, headers=HEADERS)
+    res = artists.json()
+    # pp.pprint(res)
+    artist_ids.append((res['artists']['items'][0]['name'],
+                      res['artists']['items'][0]['id']))
+
+
+data = {}
