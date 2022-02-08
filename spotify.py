@@ -69,3 +69,24 @@ for artist_name, j in artist_ids:
             else:
                 data[album_date][artist_name].append(album_data)
 # ------------------------------------------------------------------
+
+
+# for year in sorted(data):
+#     print(year)
+#     for artist in data[year]:
+#         print("  |---- ", artist)
+#         for album in data[year][artist]:
+#             print("             |---- ", album)
+#             for song in data[year][artist][album]:
+#                 print("                      |---- ", song)
+
+
+for year in sorted(data):
+    print(year)
+    for artist in data[year]:
+        print("  |---- ", artist)
+        for album in data[year][artist]:
+            print("             |---- ", list(album.keys())[0])
+            for songs in album.values():
+                for song in songs:
+                    print("                      |---- ", song)
