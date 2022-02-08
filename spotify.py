@@ -34,3 +34,38 @@ for i in queries:
 
 
 data = {}
+
+
+for artist_name, j in artist_ids:
+    albums = requests.get(f"{BASE_URL}/artists/{j}/albums", headers=HEADERS)
+    res = albums.json()
+
+    for album in (res['items']):
+        artist_data = {}
+        album_data = {}
+        album_name = album['name']
+        album_date = album['release_date'][:4]
+        album_id = album['id']
+
+        song_data = []
+        songs = requests.get(
+            f"{BASE_URL}/albums/{album_id}/tracks", headers=HEADERS)
+        for l in songs.json()['items']:
+            song_data.append(l['name'])
+
+        album_data[album_name] = song_data
+
+# ----------------------------------------------------------------
+        # if data.get(album_date, 0) == 0:
+        #     data[album_date] = {artist_name: album_data}
+        # else:
+        #     data[album_date][artist_name] = album_data
+# ----------------------------------------------------------------
+        if data.get(album_date, 0) == 0:
+            data[album_date] = {artist_name: [album_data]}
+        else:
+            if data[album_date].get(artist_name, 0) == 0:
+                data[album_date][artist_name] = [album_data]
+            else:
+                data[album_date][artist_name].append(album_data)
+# ------------------------------------------------------------------
